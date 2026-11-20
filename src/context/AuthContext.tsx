@@ -1,13 +1,14 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import {
   createContext,
-  PropsWithChildren,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useState,
+  type PropsWithChildren,
 } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const TOKEN_KEY = "token";
 
@@ -82,8 +83,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
 export function useAuth() {
   const context = useContext(AuthContext);
+
   if (!context) {
-    throw new Error("useAuth must be used insize AuthProvider");
+    throw new Error("useAuth must be used inside AuthProvider");
   }
+
   return context;
 }

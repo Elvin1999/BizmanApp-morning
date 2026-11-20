@@ -1,11 +1,13 @@
-import { AuthProvider, useAuth } from "@/context/AuthContext";
-import { getDatabase } from "@/database/database";
-import { appTheme, palette } from "@/theme/theme";
 import { Stack } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
-import { ActivityIndicator, PaperProvider, Text } from "react-native-paper";
+import { PaperProvider, Text } from "react-native-paper";
+
+import { AuthProvider, useAuth } from "../context/AuthContext";
+
+import { getDatabase } from "../database/database";
+import { appTheme, palette } from "../theme/theme";
 
 function RootNavigator() {
   const { token, isLoading } = useAuth();
@@ -15,6 +17,7 @@ function RootNavigator() {
 
   useEffect(() => {
     let mounted = true;
+
     getDatabase()
       .then(() => {
         if (mounted) {
@@ -37,9 +40,9 @@ function RootNavigator() {
   if (databaseError) {
     return (
       <View style={styles.center}>
-        <Text variant="titleMedium">Database achila bilmedi.</Text>
+        <Text variant="titleMedium">Database açıla bilmədi.</Text>
 
-        <Text>Loglari yoxlayib tetbiqi yeniden bashladin.</Text>
+        <Text>Logları yoxlayıb tətbiqi yenidən başladın.</Text>
       </View>
     );
   }
@@ -47,13 +50,18 @@ function RootNavigator() {
   if (isLoading || !databaseReady) {
     return (
       <View style={styles.center}>
-        <ActivityIndicator size="large" />
+        {/* <ActivityIndicator size="large" /> */}
+        <Text>First Loader</Text>
       </View>
     );
   }
 
+  console.log(databaseReady);
+  console.log(token);
+  console.log();
+
   return (
-    <Stack screenOptions={{headerShown:false}}>
+    <Stack screenOptions={{ headerShown: false }}>
       <Stack.Protected guard={!token}>
         <Stack.Screen name="login" />
       </Stack.Protected>
@@ -62,17 +70,17 @@ function RootNavigator() {
         <Stack.Screen name="(app)" />
       </Stack.Protected>
     </Stack>
-  )
+  );
 }
 
-export default function RootLayout(){
+export default function RootLayout() {
   return (
     <PaperProvider theme={appTheme}>
       <AuthProvider>
         <RootNavigator />
       </AuthProvider>
     </PaperProvider>
-  )
+  );
 }
 
 const styles = StyleSheet.create({

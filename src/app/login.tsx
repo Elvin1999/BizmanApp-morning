@@ -8,7 +8,6 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-
 import { Button, Surface, Text, TextInput } from "react-native-paper";
 
 export default function LoginPage() {
@@ -22,86 +21,80 @@ export default function LoginPage() {
 
   const handleLogin = async () => {
     if (busy) return;
-
     setBusy(true);
 
     try {
       const success = await signIn(username, password);
-
       if (!success) {
-        Alert.alert(
-          "Girish alinmadi",
-          "Istifadechi adi ve ya shifre yanlishdir",
-        );
+        Alert.alert("Failed to log in", "Username or passwrod is incorrect");
       }
     } catch (error) {
-      Alert.alert("Xeta", "Sessiyani saxlamaq mumkun olmadi");
-
+      Alert.alert("ERROR", "Failed to save session");
       console.error(error);
     } finally {
       setBusy(false);
     }
-
-    return (
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-      >
-        <View style={styles.header}>
-          <Text variant="displaySmall" style={styles.brand}>
-            Bizman
-          </Text>
-          <Text variant="bodyLarge" style={styles.subtitle}>
-            Musteri ve satish idareetme sistemi
-          </Text>
-        </View>
-
-        <Surface style={styles.form} elevation={1}>
-          <Text variant="titleLarge" style={styles.title}>
-            Xoş gəldiniz
-          </Text>
-
-          <TextInput
-            label="İstifadəçi adı"
-            mode="outlined"
-            autoCapitalize="none"
-            value={username}
-            onChangeText={setUsername}
-            style={styles.field}
-          />
-
-          <TextInput
-            label="Şifrə"
-            mode="outlined"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={!passwordVisible}
-            right={
-              <TextInput.Icon
-                icon={passwordVisible ? "eye-off" : "eye"}
-                onPress={() => setPasswordVisible(!passwordVisible)}
-              />
-            }
-            style={styles.field}
-          />
-
-          <Button
-            mode="contained"
-            loading={busy}
-            disabled={busy}
-            onPress={handleLogin}
-            style={styles.button}
-          >
-            Giriş
-          </Button>
-
-          <Text variant="bodySmall" style={styles.hint}>
-            Demo: admin / admin
-          </Text>
-        </Surface>
-      </KeyboardAvoidingView>
-    );
   };
+
+  return (
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+    >
+      <View style={styles.header}>
+        <Text variant="displaySmall" style={styles.brand}>
+          Bizman
+        </Text>
+        <Text variant="bodyLarge" style={styles.brand}>
+          CRM
+        </Text>
+      </View>
+
+      <Surface style={styles.form} elevation={1}>
+        <Text variant="titleLarge" style={styles.title}>
+          Xoş gəldiniz
+        </Text>
+
+        <TextInput
+          label="İstifadəçi adı"
+          mode="outlined"
+          autoCapitalize="none"
+          value={username}
+          onChangeText={setUsername}
+          style={styles.field}
+        />
+
+        <TextInput
+          label="Şifrə"
+          mode="outlined"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={!passwordVisible}
+          right={
+            <TextInput.Icon
+              icon={passwordVisible ? "eye-off" : "eye"}
+              onPress={() => setPasswordVisible(!passwordVisible)}
+            />
+          }
+          style={styles.field}
+        />
+
+        <Button
+          mode="contained"
+          loading={busy}
+          disabled={busy}
+          onPress={handleLogin}
+          style={styles.button}
+        >
+          Giriş
+        </Button>
+
+        <Text variant="bodySmall" style={styles.hint}>
+          Demo: admin / admin
+        </Text>
+      </Surface>
+    </KeyboardAvoidingView>
+  );
 }
 
 const styles = StyleSheet.create({

@@ -4,7 +4,7 @@ import { Alert, ScrollView, StyleSheet, View } from "react-native";
 
 import { router, useFocusEffect } from "expo-router";
 
-import { ActivityIndicator, Button, Text } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 
 import { BarChart } from "../../components/BarChart";
 import { StatCard } from "../../components/StatCard";
@@ -83,7 +83,8 @@ export default function DashboardPage() {
       </View>
 
       {loading ? (
-        <ActivityIndicator size="large" style={styles.spinner} />
+        // <ActivityIndicator size="large" style={styles.spinner} />
+        <Text>Inner Loader</Text>
       ) : (
         <>
           <View style={styles.grid}>
